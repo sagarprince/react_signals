@@ -1,0 +1,26 @@
+
+.task_card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .task_completed {
+        span {
+            text-decoration: line-through;
+        }
+    }
+
+    input[type="checkbox"] {
+        margin-right: 10px;
+    }
+
+    button {
+        margin-left: 10px;
+        width: 2rem;
+        height: 2rem;
+        min-height: auto;
+        svg {
+            width: 1.35em;
+        }
+    }
+}
