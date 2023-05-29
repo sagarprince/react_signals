@@ -1,13 +1,11 @@
-import { ChangeEvent, useContext, useRef } from "react";
+import { ChangeEvent, useRef } from "react";
 import styles from './AddTaskInput.module.scss';
-import { AppContext } from "../../context/AppContext";
+import useApp from '../../hooks/useApp';
 
 export const AddTaskInput = () => {
-    const { addTask } = useContext(AppContext);
+    const { addTask } = useApp();
     const ref: any = useRef();
     const inputRef: any = useRef();
-    
-    console.log('Render AddTaskInput');
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         ref.current = event.target?.value;
@@ -16,6 +14,7 @@ export const AddTaskInput = () => {
     const onAddTask = (e: React.SyntheticEvent) => {
         e.preventDefault();
         addTask({
+            id: 0,
             title: ref?.current,
             completed: false
         });

@@ -1,23 +1,27 @@
-
-import { MutableRefObject, useContext, useRef } from 'react';
-import { AppContext } from '../../context/AppContext';
-import { Task } from '../../models/task.model';
-import { effect } from "@preact/signals-react";
 import styles from './TasksList.module.scss';
+import useApp from '../../hooks/useApp';
+import { Task } from '../../models/task.model';
 import { TaskCard } from '../Task/Task';
 
 export const TasksList: React.FC = () => {
     console.log('Render Tasks List');
 
     return (
-        <ul className={styles.tasks_list}>
-            <List />
-        </ul>
+        <div>
+            <div className="tabs tabs-boxed">
+                <a className="tab">All</a> 
+                <a className="tab tab-active">Active</a> 
+                <a className="tab">Completed</a>
+            </div>
+            <ul className={styles.tasks_list}>
+                <List />
+            </ul>
+        </div>
     );
 }
 
 const List: React.FC = () => {
-    const { tasks, toggleTaskCompleted, removeTask } = useContext(AppContext);
+    const { tasks, toggleTaskCompleted, removeTask } = useApp();
 
     console.log('Render List ', tasks.value);
 
