@@ -1,0 +1,45 @@
+.wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    .container {
+        padding: 20px;
+        text-align: center;
+
+        &__text_base {
+            font-size: 1rem;
+            line-height: 1.5rem;
+            font-weight: 600;
+            color: rgb(75 85 99 / 1);
+            margin: 0;
+
+            &__red {
+                color: rgb(246 36 142);
+            }
+
+            &__sub_text {
+                margin-top: 1.5rem;
+                font-weight: 500;
+            }
+        }
+
+        &__heading {
+            margin: 1rem 0 0;
+            font-size: 3rem;
+            line-height: 1;
+            color: rgb(17 24 39 / 1);
+            letter-spacing: -0.025em;
+        }
+
+        &__back_home {
+            margin-top: 2rem;
+
+            i {
+                margin-right: 8px;
+            }
+        }
+    }
+}

@@ -1,0 +1,50 @@
+.select_container {
+    label {
+        font-size: 1rem;
+        margin: 0 0 10px;
+
+        span {
+            color: #e11d48;
+        }
+    }
+
+    select {
+        margin-top: 5px;
+        display: block;
+        border: 2px solid rgb(209, 213, 219);
+        width: 100%;
+        padding: 10px;
+        border-radius: 0.375rem;
+        transition: border-color 0.2s linear 0s;
+        will-change: transition;
+        font-size: 0.95rem;
+        outline: none;
+
+        option {
+            padding: 10px;
+
+            &:checked {
+                background-color: rgb(108 104 169);
+                color: white;
+            }
+        }
+    }
+
+    .validation_error {
+        margin: 5px 0 0;
+        color: #e11d48;
+        font-size: 0.8rem;
+    }
+
+    &__invalid {
+        .input_field {
+            input {
+                border-color: #e11d48;
+
+                &:focus {
+                    border-color: #e11d48;
+                }
+            }
+        }
+    }
+}

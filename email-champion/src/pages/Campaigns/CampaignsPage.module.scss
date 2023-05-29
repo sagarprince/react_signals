@@ -1,0 +1,71 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    padding: 20px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__heading {
+        h1 {
+            font-size: 1.875rem;
+            line-height: 2.25rem;
+            color: rgb(17 24 39 / 1);
+            margin: 0;
+        }
+
+        h3 {
+            font-size: 0.85rem;
+            font-weight: 400;
+            margin: 2px 0 0;
+        }
+    }
+}
+
+.wrap {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.search_campaigns_input {
+    width: 35%;
+    margin-left: auto;
+    margin-bottom: 20px;
+}
+
+.campaign_actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+        background-color: transparent;
+        padding: 0px;
+        border: 0 none;
+        color: #1c9394;
+        margin-left: 20px;
+        font-size: 1rem;
+
+        &:first-child {
+            margin-left: 0px;
+        }
+
+        &:last-child {
+            color: #ba255c;
+        }
+
+        &:disabled {
+            color: rgba(213, 213, 213, 1);
+        }
+    }
+}
+
+.campaigns_pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}

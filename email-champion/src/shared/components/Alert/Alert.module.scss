@@ -1,0 +1,42 @@
+.alert {
+    padding: 15px 20px;
+    color: white;
+    position: relative;
+    border-radius: 5px;
+
+    &.error {
+        background-color: #f44336;
+    }
+
+    &.success {
+        background-color: #04AA6D;
+    }
+
+    &.info {
+        background-color: #2196F3;
+    }
+
+    &.warning {
+        background-color: #ff9800;
+    }
+
+    button {
+        color: white;
+        font-weight: bold;
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+        cursor: pointer;
+        transition: 0.3s;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        background-color: transparent;
+        border: 0 none;
+        outline: none;
+
+        &:hover {
+            color: black;
+        }
+    }
+}

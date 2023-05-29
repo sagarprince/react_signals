@@ -1,0 +1,37 @@
+.wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100vh - 80px);
+
+    .container {
+        padding: 20px;
+        text-align: center;
+
+        &__text_base {
+            font-size: 1rem;
+            line-height: 1.5rem;
+            font-weight: 600;
+            color: rgb(75 85 99 / 1);
+            margin: 0;
+
+            &__red {
+                margin-top: 1.5rem;
+                color: rgb(246 36 142);
+            }
+        }
+
+        &__heading {
+            margin: 0;
+            font-size: 2rem;
+            line-height: 1;
+            color: rgb(17 24 39 / 1);
+            letter-spacing: -0.025em;
+        }
+
+        &__try_again {
+            margin-top: 2rem;
+        }
+    }
+}

@@ -1,0 +1,21 @@
+.breadcrumb_nav {
+    .breadcrumb {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+
+        li {
+            i {
+                color: #959fa5;
+                margin: 0 15px;
+                font-size: 16px;
+            }
+
+            &.active {
+                color: #2c3f4c;
+            }
+        }
+    }
+}

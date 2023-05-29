@@ -1,0 +1,18 @@
+.btn {
+    padding: 10px 15px;
+    border: 0 none;
+    color: white;
+    background-color: rgb(79 70 229 / 1);
+    font-size: 1rem;
+    border-radius: 6px;
+    width: 100%;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgb(99 102 241 /1);
+    }
+
+    &:disabled {
+        background-color: #bbbbbb;
+    }
+}

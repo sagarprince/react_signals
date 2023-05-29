@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 30px 0 40px;
+}
+
+.actions {
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.card {
+    width: 100%;
+    max-width: 45rem;
+    background-color: white;
+    -webkit-box-shadow: 10px 10px 13px 0px rgba(187, 187, 187, 0.53);
+    -moz-box-shadow: 10px 10px 13px 0px rgba(187, 187, 187, 0.53);
+    box-shadow: 10px 10px 13px 0px rgba(187, 187, 187, 0.53);
+    border-radius: 10px;
+    padding: 2rem;
+
+    &__header {
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin: 0;
+        }
+    }
+
+    &__content {
+        margin-top: 30px;
+    }
+
+    &__form {
+        &__field_row {
+            margin-top: 15px;
+        }
+
+        &__action_row {
+            margin-top: 35px;
+        }
+    }
+}

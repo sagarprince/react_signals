@@ -1,0 +1,10 @@
+export const HOME = '/';
+export const LOGIN = '/login';
+export const SIGN_UP = '/sign-up';
+export const CONTACTS = '/contacts';
+export const ADD_CONTACT = '/contacts/add_contact';
+export const EDIT_CONTACT = '/contacts/edit_contact/:id';
+export const CAMPAIGNS = '/campaigns';
+export const ADD_CAMPAIGN = '/campaigns/add_campaign';
+export const EDIT_CAMPAIGN = '/campaigns/edit_campaign/:id';
+export const TEMPLATES = '/templates';
