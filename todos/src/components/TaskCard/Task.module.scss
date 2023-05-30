@@ -1,0 +1,50 @@
+
+.task_card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .task_title {
+        display: flex;
+        align-items: center;
+        width: 90%;
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+            border-color: #828282;
+            border-width: 2px;
+        }
+
+        &__text {
+            font-weight: 500;
+            color: #3b3b3b;
+            &.task_completed {
+                text-decoration: line-through;
+            }
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .editable_input {
+            background-color: transparent;
+            border: 0 none;
+            border-bottom: 1px solid #afafaf;
+            color: #3b3b3b;
+            outline: none;
+            width: 100%;
+            font-weight: 500;
+        }
+    }
+
+    button {
+        margin-left: 10px;
+        width: 2rem;
+        height: 2rem;
+        min-height: auto;
+        svg {
+            width: 1.35em;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import './App.css'
-import { AddTaskInput } from './components/AddTaskInput/AddTaskInput';
-import { TasksList } from './components/Tasks/TasksList';
+import { AddTaskInput } from './components/AddTaskInput';
+import { Filters } from './components/Filters';
+import { TasksList } from './components/Tasks';
 import { AppProvider } from './contexts/AppContext';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
     <AppProvider>
       <section className='App'>
         <AddTaskInput />
+        <Filters />
         <TasksList />
       </section>
     </AppProvider>

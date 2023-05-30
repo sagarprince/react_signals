@@ -1,4 +1,10 @@
 
+.filters {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
 .tasks_list {
     list-style-type: none;
     padding: 0;
@@ -15,3 +21,4 @@
         }
     }
 }
+

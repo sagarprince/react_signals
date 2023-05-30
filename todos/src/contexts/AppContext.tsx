@@ -1,27 +1,36 @@
 import { ReactNode, createContext } from "react";
 import { ReadonlySignal, Signal, batch, computed, signal } from '@preact/signals-react';
 import { Task } from '../models/task.model';
+import { generateGUID } from '../utils';
 
 export interface AppContextType {
     tasks: Signal<Task[]>;
+    allTasksCount: ReadonlySignal<number>;
     activeTasks: ReadonlySignal<Task[]>;
     activeTasksCount: ReadonlySignal<number>;
     completedTasks: ReadonlySignal<Task[]>;
     completedTasksCount: ReadonlySignal<number>;
+    currentFilter: Signal<string>;
+    filterTasks: ReadonlySignal<Task[]>;
     addTask: (task: Task) => void;
-    toggleTaskCompleted: (taskId: any, completed: boolean) => void;
-    removeTask: (taskId: any) => void;
+    handleTaskChange: (taskId: any, key: any, value: any) => void;
+    deleteTask: (taskId: any) => void;
+    handleFilterChange: (filter: any) => void;
 }
 
 function createAppState(): AppContextType {
     const tasks: Signal<Task[]> = signal([]);
+
+    const allTasksCount = computed(() => {
+        return tasks.value.length;
+    });
 
     const activeTasks = computed(() => {
         return tasks.value.filter(todo => !todo.completed)
     });
 
     const activeTasksCount = computed(() => {
-        return activeTasks.peek().length;
+        return activeTasks.value.length;
     });
 
     const completedTasks = computed(() => {
@@ -29,22 +38,40 @@ function createAppState(): AppContextType {
     });
 
     const completedTasksCount = computed(() => {
-        return completedTasks.peek().length;
+        return completedTasks.value.length;
     });
 
-    const generateQuickGuid = () => {
-        return Math.random().toString(36).substring(2, 15) +
-            Math.random().toString(36).substring(2, 15);
-    }
+    const currentFilter: Signal<string> = signal('all');
+
+    const filterTasks = computed(() => {
+        const filtersMap: Record<string, any> = {
+            'all': tasks.value,
+            'active': activeTasks.value,
+            'completed': completedTasks.value
+        };
+        return filtersMap[currentFilter.value];
+    });
 
     const addTask = (task: Task) => {
         batch(() => {
-            task.id = generateQuickGuid();
+            task.id = generateGUID();
             tasks.value = [...tasks.value, task];
         });
     }
 
-    const toggleTaskCompleted = (taskId: any, completed: boolean) => {
+    const handleTaskChange = (taskId: any, key: any, value: any) => {
+        tasks.value = [...tasks.value].map((task) => {
+            if (task.id !== taskId) {
+                return task;
+            }
+            return {
+                ...task,
+                [key]: value
+            };
+        });
+    }
+
+    const handleTaskStatusChange = (taskId: any, completed: boolean) => {
         tasks.value = [...tasks.value].map((task) => {
             if (task.id !== taskId) {
                 return task;
@@ -56,20 +83,39 @@ function createAppState(): AppContextType {
         });
     }
 
+    const handleTaskTitleChange = (taskId: any, title: string) => {
+        tasks.value = [...tasks.value].map((task) => {
+            if (task.id !== taskId) {
+                return task;
+            }
+            return {
+                ...task,
+                title
+            };
+        });
+    }
 
-    const removeTask = (taskId: any) => {
+    const deleteTask = (taskId: any) => {
         tasks.value = tasks.value.filter(t => t.id !== taskId);
+    }
+
+    const handleFilterChange = (filter: any) => {
+        currentFilter.value = filter;
     }
 
     return {
         tasks,
+        allTasksCount,
         activeTasks,
         activeTasksCount,
         completedTasks,
         completedTasksCount,
+        currentFilter,
+        filterTasks,
         addTask,
-        toggleTaskCompleted,
-        removeTask
+        handleTaskChange,
+        deleteTask,
+        handleFilterChange
     };
 }
 

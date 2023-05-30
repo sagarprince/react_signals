@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useCallback, useRef } from "react";
 import styles from './AddTaskInput.module.scss';
 import useApp from '../../hooks/useApp';
 
@@ -6,10 +6,11 @@ export const AddTaskInput = () => {
     const { addTask } = useApp();
     const ref: any = useRef();
     const inputRef: any = useRef();
+    
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         ref.current = event.target?.value;
-    };
+    }, []);
 
     const onAddTask = (e: React.SyntheticEvent) => {
         e.preventDefault();
