@@ -1,7 +1,8 @@
-import { ReactNode, createContext } from "react";
+import { ReactNode, createContext, useEffect } from "react";
 import { ReadonlySignal, Signal, batch, computed, signal } from '@preact/signals-react';
 import { Task } from '../models/task.model';
 import { generateGUID } from '../utils';
+import { AppService } from '../services/AppService';
 
 export interface AppContextType {
     tasks: Signal<Task[]>;
@@ -71,30 +72,6 @@ function createAppState(): AppContextType {
         });
     }
 
-    const handleTaskStatusChange = (taskId: any, completed: boolean) => {
-        tasks.value = [...tasks.value].map((task) => {
-            if (task.id !== taskId) {
-                return task;
-            }
-            return {
-                ...task,
-                completed
-            };
-        });
-    }
-
-    const handleTaskTitleChange = (taskId: any, title: string) => {
-        tasks.value = [...tasks.value].map((task) => {
-            if (task.id !== taskId) {
-                return task;
-            }
-            return {
-                ...task,
-                title
-            };
-        });
-    }
-
     const deleteTask = (taskId: any) => {
         tasks.value = tasks.value.filter(t => t.id !== taskId);
     }
@@ -124,6 +101,25 @@ const state = createAppState();
 export const AppContext = createContext<AppContextType>({} as AppContextType);
 
 export function AppProvider({ children }: { children: ReactNode }) {
+    async function loadTodos() {
+        try {
+          const data = await AppService.getTodos();
+          const tasks: Task[] = data.map((item: any) => {
+            return {
+                ...item,
+                title: item.todo,
+            };
+          });
+          state.tasks.value = tasks;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+    useEffect(() => {
+        loadTodos();
+    }, [loadTodos])
+
     return (
         <AppContext.Provider value={state}>
             {children}
