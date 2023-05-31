@@ -4,6 +4,45 @@
 
 .App {
   padding: 20px;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  padding: 20px;
+  z-index: 1;
+  transition: box-shadow 0.2s;
+  &.scrolling {
+    will-change: box-shadow;
+    box-shadow: 0px 3px 11px -4px rgba(0,0,0,0.6);
+  }
+}
+
+.shimmer-bg {
+  animation : shimmer 2s infinite linear;
+  background: linear-gradient(to right, #e5e5e5 4%, #dadada 25%, #eaeaea 36%);
+  background-size: 1000px 100%;
+}
+
+.shimmer-blur {
+  filter: blur(2px);
+}
+
+.shimmer-blured {
+  filter: blur(5px);
+}
+
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
 }

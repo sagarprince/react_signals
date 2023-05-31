@@ -1,10 +1,14 @@
-
-.task_card {
+.todo_card {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #f4f6f7;
+    padding: 10px 15px;
+    border-radius: 10px;
+    height: 100%;
+    min-height: 100px;
 
-    .task_title {
+    &__item {
         display: flex;
         align-items: center;
         width: 90%;
@@ -18,9 +22,17 @@
         &__text {
             font-weight: 500;
             color: #3b3b3b;
-            &.task_completed {
+
+            &.completed {
                 text-decoration: line-through;
             }
+        }
+
+        &__text_loading {
+            display: block;
+            width: 100%;
+            height: 25px;
+            border-radius: 8px;
         }
 
         form {
@@ -43,6 +55,7 @@
         width: 2rem;
         height: 2rem;
         min-height: auto;
+
         svg {
             width: 1.35em;
         }

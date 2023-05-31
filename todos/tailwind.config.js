@@ -9,9 +9,8 @@ export default {
   plugins: [
     require('daisyui')
   ],
-  // daisyui: {
-  //   styled: true,
-  //   prefix: 'todos-'
-  // }
+  daisyui: {
+    themes: false,
+  }
 }
 

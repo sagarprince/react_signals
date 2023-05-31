@@ -1,79 +1,102 @@
 import { ReactNode, createContext, useEffect } from "react";
 import { ReadonlySignal, Signal, batch, computed, signal } from '@preact/signals-react';
-import { Task } from '../models/task.model';
-import { generateGUID } from '../utils';
+import { Todo } from '../models/todo.model';
 import { AppService } from '../services/AppService';
 
 export interface AppContextType {
-    tasks: Signal<Task[]>;
-    allTasksCount: ReadonlySignal<number>;
-    activeTasks: ReadonlySignal<Task[]>;
-    activeTasksCount: ReadonlySignal<number>;
-    completedTasks: ReadonlySignal<Task[]>;
-    completedTasksCount: ReadonlySignal<number>;
+    todos: Signal<Todo[]>;
+    isLoading: Signal<boolean>;
+    allTodosCount: ReadonlySignal<number>;
+    activeTodos: ReadonlySignal<Todo[]>;
+    activeTodosCount: ReadonlySignal<number>;
+    completedTodos: ReadonlySignal<Todo[]>;
+    completedTodosCount: ReadonlySignal<number>;
     currentFilter: Signal<string>;
-    filterTasks: ReadonlySignal<Task[]>;
-    addTask: (task: Task) => void;
-    handleTaskChange: (taskId: any, key: any, value: any) => void;
-    deleteTask: (taskId: any) => void;
+    filterTodos: ReadonlySignal<Todo[]>;
+    setTodos: (items: Todo[]) => void;
+    fetchTodos: () => void;
+    addTodo: (todo: Todo) => void;
+    handleTodoChange: (todoId: any, key: any, value: any) => void;
+    deleteTodo: (todoId: any) => void;
     handleFilterChange: (filter: any) => void;
 }
 
 function createAppState(): AppContextType {
-    const tasks: Signal<Task[]> = signal([]);
+    const todos: Signal<Todo[]> = signal([]);
+    const isLoading: Signal<boolean> = signal(true);
 
-    const allTasksCount = computed(() => {
-        return tasks.value.length;
+    const allTodosCount = computed(() => {
+        return todos.value.length;
     });
 
-    const activeTasks = computed(() => {
-        return tasks.value.filter(todo => !todo.completed)
+    const activeTodos = computed(() => {
+        return todos.value.filter(todo => !todo.completed)
     });
 
-    const activeTasksCount = computed(() => {
-        return activeTasks.value.length;
+    const activeTodosCount = computed(() => {
+        return activeTodos.value.length;
     });
 
-    const completedTasks = computed(() => {
-        return tasks.value.filter(todo => todo.completed)
+    const completedTodos = computed(() => {
+        return todos.value.filter(todo => todo.completed)
     });
 
-    const completedTasksCount = computed(() => {
-        return completedTasks.value.length;
+    const completedTodosCount = computed(() => {
+        return completedTodos.value.length;
     });
 
     const currentFilter: Signal<string> = signal('all');
 
-    const filterTasks = computed(() => {
+    const filterTodos = computed(() => {
         const filtersMap: Record<string, any> = {
-            'all': tasks.value,
-            'active': activeTasks.value,
-            'completed': completedTasks.value
+            'all': todos.value,
+            'active': activeTodos.value,
+            'completed': completedTodos.value
         };
         return filtersMap[currentFilter.value];
     });
 
-    const addTask = (task: Task) => {
-        batch(() => {
-            task.id = generateGUID();
-            tasks.value = [...tasks.value, task];
-        });
+    const setTodos = (items: Todo[]) => {
+        todos.value = items;
     }
 
-    const handleTaskChange = (taskId: any, key: any, value: any) => {
-        tasks.value = [...tasks.value].map((task) => {
-            if (task.id !== taskId) {
-                return task;
+    async function fetchTodos() {
+        try {
+            const todos = await AppService.getTodos();
+            setTodos(todos);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            isLoading.value = false;
+        }
+    }
+
+    const addTodo = async (todo: Todo) => {
+        batch(() => {
+            todos.value = [todo, ...todos.value];
+        });
+        
+        try {
+            await AppService.addTodo(todo);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleTodoChange = (todoId: any, key: any, value: any) => {
+        todos.value = [...todos.value].map((todo) => {
+            if (todo.id !== todoId) {
+                return todo;
             }
             return {
-                ...task,
+                ...todo,
                 [key]: value
             };
         });
     }
 
-    const deleteTask = (taskId: any) => {
-        tasks.value = tasks.value.filter(t => t.id !== taskId);
+    const deleteTodo = (todoId: any) => {
+        todos.value = todos.value.filter(t => t.id !== todoId);
     }
 
     const handleFilterChange = (filter: any) => {
@@ -81,17 +104,20 @@ function createAppState(): AppContextType {
     }
 
     return {
-        tasks,
-        allTasksCount,
-        activeTasks,
-        activeTasksCount,
-        completedTasks,
-        completedTasksCount,
+        todos,
+        isLoading,
+        allTodosCount,
+        activeTodos,
+        activeTodosCount,
+        completedTodos,
+        completedTodosCount,
         currentFilter,
-        filterTasks,
-        addTask,
-        handleTaskChange,
-        deleteTask,
+        filterTodos,
+        setTodos,
+        fetchTodos,
+        addTodo,
+        handleTodoChange,
+        deleteTodo,
         handleFilterChange
     };
 }
@@ -101,24 +127,9 @@ const state = createAppState();
 export const AppContext = createContext<AppContextType>({} as AppContextType);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-    async function loadTodos() {
-        try {
-          const data = await AppService.getTodos();
-          const tasks: Task[] = data.map((item: any) => {
-            return {
-                ...item,
-                title: item.todo,
-            };
-          });
-          state.tasks.value = tasks;
-        } catch (error) {
-          console.log(error);
-        }
-      }
-
     useEffect(() => {
-        loadTodos();
-    }, [loadTodos])
+        state.fetchTodos();
+    }, [state.fetchTodos])
 
     return (
         <AppContext.Provider value={state}>

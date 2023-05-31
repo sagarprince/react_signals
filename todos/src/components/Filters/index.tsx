@@ -2,6 +2,7 @@ import styles from './Filters.module.scss';
 import useApp from '../../hooks/useApp';
 import React, { Fragment, useCallback, useMemo } from 'react';
 import { ReadonlySignal, Signal } from '@preact/signals-react';
+import { classNames } from '../../utils';
 
 interface Filter {
     key: string;
@@ -10,10 +11,10 @@ interface Filter {
 }
 
 export const Filters: React.FC = () => {
-    const { 
-        allTasksCount,
-        completedTasksCount, 
-        activeTasksCount,
+    const {
+        allTodosCount,
+        activeTodosCount,
+        completedTodosCount,
         currentFilter,
         handleFilterChange
     } = useApp();
@@ -25,17 +26,17 @@ export const Filters: React.FC = () => {
             {
                 key: 'all',
                 label: 'All',
-                count: allTasksCount
+                count: allTodosCount
             },
             {
                 key: 'active',
                 label: 'Active',
-                count: activeTasksCount
+                count: activeTodosCount
             },
             {
                 key: 'completed',
                 label: 'Completed',
-                count: completedTasksCount
+                count: completedTodosCount
             },
         ];
     }, []);
@@ -45,20 +46,20 @@ export const Filters: React.FC = () => {
     }, []);
 
     return (
-        <div className={`tabs tabs-boxed ${styles.filters}`}>
-            <FiltersTabs 
-                currentFilter={currentFilter} 
-                filters={filters} 
-                handleChange={handleChange}  />
+        <div className={classNames('tabs tabs-boxed', styles.filters)}>
+            <FiltersTabs
+                currentFilter={currentFilter}
+                filters={filters}
+                handleChange={handleChange} />
         </div>
     );
 }
 
 const FiltersTabs: React.FC<{
-        filters: Filter[], 
-        currentFilter: Signal<string>, 
-        handleChange: (filter: any) => void
-    }> = ({filters, currentFilter, handleChange}) => {
+    filters: Filter[],
+    currentFilter: Signal<string>,
+    handleChange: (filter: any) => void
+}> = ({ filters, currentFilter, handleChange }) => {
 
     return (
         <>

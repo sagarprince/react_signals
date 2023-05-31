@@ -1,16 +1,37 @@
+import { useCallback, useEffect } from 'react';
 import './App.css'
-import { AddTaskInput } from './components/AddTaskInput';
+import { AddTodoForm } from './components/AddTodoForm';
 import { Filters } from './components/Filters';
-import { TasksList } from './components/Tasks';
+import { Todos } from './components/Todos';
 import { AppProvider } from './contexts/AppContext';
 
 function App() {
+
+  const handleScroll = useCallback(() => {
+    const scrollY = window.scrollY;
+    const header = document.querySelector('header');
+    if (scrollY > 30) {
+      header?.classList.add("scrolling");
+    } else {
+      header?.classList.remove("scrolling");
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    }
+  }, [handleScroll])
+
   return (
     <AppProvider>
       <section className='App'>
-        <AddTaskInput />
-        <Filters />
-        <TasksList />
+        <header>
+          <AddTodoForm />
+          <Filters />
+        </header>
+        <Todos />
       </section>
     </AppProvider>
   )
