@@ -9,34 +9,39 @@ export const TodoCard: React.FC<{
     todo: Todo
 }> = memo(({ todo }) => {
     const {
-        isLoading,
         handleTodoChange,
         deleteTodo,
     } = useApp();
 
     console.log('Render TodoCard ', todo.id);
 
+    const onUpdateTodoName = useCallback((todoId: any, name: string) => {
+        handleTodoChange(
+            todoId,
+            'name',
+            name,
+        );
+    }, []);
+
+    const onTodoStatusChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        handleTodoChange(
+            todo.id,
+            'completed',
+            event.target.checked,
+        );
+    }, []);
+
+    const onTodoDelete = useCallback(() => {
+        deleteTodo(todo.id);
+    }, []);
+
     return (
         <div className={styles.todo_card}>
             <TodoItem
                 todo={todo}
-                onUpdateTodoName={(todoId, name) => {
-                    handleTodoChange(
-                        todoId,
-                        'name',
-                        name,
-                    );
-                }}
-                onTodoStatusChange={(event) =>
-                    handleTodoChange(
-                        todo.id,
-                        'completed',
-                        event.target.checked,
-                    )
-                } />
-            <TodoItemDeleteButton onTodoDelete={() => {
-                deleteTodo(todo.id);
-            }} />
+                onUpdateTodoName={onUpdateTodoName}
+                onTodoStatusChange={onTodoStatusChange} />
+            <TodoItemDeleteButton onTodoDelete={onTodoDelete} />
         </div>
     );
 })
