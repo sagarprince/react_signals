@@ -3,14 +3,11 @@ import useApp from '../../hooks/useApp';
 import { Todo } from '../../models/todo.model';
 import { TodoCard } from '../TodoCard';
 import { ReadonlySignal } from '@preact/signals-react';
-import { useEffect } from 'react';
 
 export const Todos: React.FC = () => {
     const {
         filterTodos,
-        isLoading,
-        handleTodoChange,
-        deleteTodo,
+        isLoading
     } = useApp();
 
     console.log('Render Todos');
