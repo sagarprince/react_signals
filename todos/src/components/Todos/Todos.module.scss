@@ -5,5 +5,9 @@
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
 
+    li {
+        content-visibility: auto;
+        contain-intrinsic-size: 100px;
+    }
+}
